@@ -1,8 +1,8 @@
 <template>
   <div class="bodyLogin">
-    <div class="containerLogin" style="light">
-      <div>
-        <label for="gmail">gmail</label>
+    <div class="containerLogin box-shadow" style="light">
+      <div class="item-login">
+        <label for="gmail">Gmail :</label>
         <el-input
           id="gmail"
           type="gmail"
@@ -10,8 +10,8 @@
           v-model="form.gmail"
         />
       </div>
-      <div>
-        <label for="password">password</label>
+      <div class="item-login">
+        <label for="password">Mật khẩu :</label>
         <el-input
           id="password"
           type="password"
@@ -19,12 +19,13 @@
           v-model="form.password"
         />
       </div>
-      <el-button type="primary">Đăng nhập</el-button>
+      <el-button type="primary" @click="login">Đăng nhập</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import myAxios from "../api";
 import { ElButton, ElInput } from "element-plus";
 export default {
   name: "login",
@@ -38,26 +39,40 @@ export default {
         gmail: "",
         password: "",
       },
+      alert1:''
     };
+  },
+  created() {
+  },
+  methods: {
+    async login() {
+      try {
+      const resulf = await myAxios.post("/auth/login", this.form);
+      console.log(resulf)
+      } catch (error) {
+      console.log(error)
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
 .bodyLogin {
-    width: 100%;
-    height: 100vh;
+  width: 100%;
+  height: 100vh;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.containerLogin{
-    width: 350px;
+.containerLogin {
+  width: 350px;
 
-    background-color: aqua;
-    padding: 20px;
-    border-radius: 10px
-
+  padding: 20px;
+  border-radius: 10px;
+}
+.item-login {
+  padding: 6px 0px;
 }
 </style>

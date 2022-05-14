@@ -1,10 +1,9 @@
 
 
-//temple respone
+//--temple respone--
 const myRespone = (status, message, data) => {
     const respone = { status, message }
-    console.log(data)
-    if (data) respone.data = data
+    respone.data = data && data
     return respone
 }
 

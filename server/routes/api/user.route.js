@@ -1,18 +1,9 @@
 const express = require('express')
 const routes = express.Router()
 const { myRespone } = require('../../helper/index')
+const users = require('../../model/users.model')
 
-//list user
-const users = [
-    {
-        gmail: 'admin@gmail.com',
-        password: 'admin@gmail.com'
-    },
-    {
-        gmail: 'tiennguyen2507@gmail.com',
-        password: 'tiennguyen2507@gmail.com'
-    }
-]
+
 
 //get all data user
 routes.get('/', (req, res) => {
