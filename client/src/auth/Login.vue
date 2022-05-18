@@ -8,18 +8,25 @@
           type="gmail"
           placeholder="gmail"
           v-model="form.gmail"
+          class="labelItem"
         />
       </div>
       <div class="item-login">
-        <label for="password">Mật khẩu :</label>
-        <el-input
-          id="password"
-          type="password"
-          placeholder="password"
-          v-model="form.password"
-        />
+        <label for="password" class="labelItem">Mật khẩu :</label>
+        <div>
+          <el-input
+            id="password"
+            type="password"
+            placeholder="password"
+            v-model="form.password"
+            class="labelItem"
+          />
+        </div>
       </div>
-      <el-button type="primary" @click="login">Đăng nhập</el-button>
+      {{ alert1 }}
+      <el-button type="primary" @click="handleButtonLogin" class="buttonLogin"
+        >Đăng nhập</el-button
+      >
     </div>
   </div>
 </template>
@@ -39,18 +46,25 @@ export default {
         gmail: "",
         password: "",
       },
-      alert1:''
+      alert1: "",
     };
   },
-  created() {
-  },
   methods: {
-    async login() {
+    async handleButtonLogin() {
+      const resulf = await this.apiLogin();
+      this.alert1 = resulf.message && resulf.message;
+      if (resulf.status) {
+        localStorage.setItem("token", resulf.data.token);
+        await this.$router.push({ name: "/" });
+      }
+    },
+    // call api
+    async apiLogin() {
       try {
-      const resulf = await myAxios.post("/auth/login", this.form);
-      console.log(resulf)
+        const resulf = await myAxios.post("/auth/login", this.form);
+        return resulf;
       } catch (error) {
-      console.log(error)
+        return error;
       }
     },
   },
@@ -70,9 +84,16 @@ export default {
   width: 350px;
 
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 .item-login {
   padding: 6px 0px;
+}
+.labelItem {
+  margin: 4px 0px;
+}
+.buttonLogin {
+  width: 100%;
+  margin-top: 10px;
 }
 </style>
